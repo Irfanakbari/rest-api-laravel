@@ -27,7 +27,7 @@ class AuthController extends Controller
             'nis' => $request->nis,
             'nama' => $request->nama,
             'password' => Hash::make($request->password),
-            'ip' => $this->getip,
+            'ip' => $request->ip(),
         ]);
 
         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
