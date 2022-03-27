@@ -61,20 +61,49 @@ return response()->json([
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nis' => 'required',
+            'absen' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        // Geofencing
+        $geofence = new Polygon();
+
+        $geofence->addPoint(new Coordinate(3.7511587618195557, 98.25261091248325));
+        $geofence->addPoint(new Coordinate(3.750357177495111, 98.25258726355919));
+        $geofence->addPoint(new Coordinate(3.7502956187966885, 98.25302982802422));
+        $geofence->addPoint(new Coordinate(3.751334086693782, 98.25311834091724));
+        $geofence->addPoint(new Coordinate(3.7511587618195557, 98.25261091248325));
+
+        // get data from request
         $me = auth()->user();
         $tanggal = date('Y-m-d');
         $jam = date('H:i:s');
+        $lat = $request->lat;
+        $long = $request->long;
+
+        // check if inside geofence or not
+        $Point = new Coordinate($lat, $long);
+        $isInside = $geofence->contains($Point);
+
+
+        
+
+        if (!$isInside) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Anda Berada di luar radius absen'
+            ], 401);
+        }
         
         if ($me->nis ==intval($request->nis)) {
-            $validator = Validator::make($request->all(), [
-                'nis' => 'required',
-                'absen' => 'required',
-            ]);
-    
-            if ($validator->fails()) {
-                return response()->json($validator->errors()->toJson(), 400);
-            }
+            
             
             if (Absen::where('nis', $request->nis)->where('tanggal', $tanggal)->exists()) {
                 return response()->json([
