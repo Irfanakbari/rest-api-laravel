@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Http\Requests\StoreSiswaRequest;
 use App\Http\Requests\UpdateSiswaRequest;
+use App\Models\Settings;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -101,6 +102,7 @@ class SiswaController extends Controller
     {
         //
         $me = auth()->user();
+        $settings = Settings::find(1);
         if (intval($me->nis) == intval($siswa->nis)) {
             return response()->json([
                 'status' => 'success',
@@ -108,6 +110,8 @@ class SiswaController extends Controller
                     'nama' => $siswa->nama,
                     'nis' => $siswa->nis,
                     'id_kelas' => $siswa->id_kelas,
+                    'jam_buka' => $settings->jam_buka,
+                    'jam_tutup' => $settings->jam_tutup,
                 ]
             ], 200);
         } else {

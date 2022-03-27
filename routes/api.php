@@ -20,6 +20,7 @@ use App\Http\Controllers\AbsenController;
 Route::post('/login', ['as' => 'login', 'uses' => 'App\Http\Controllers\API\AuthController@login']);
 Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
 
+
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
