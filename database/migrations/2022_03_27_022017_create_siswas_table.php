@@ -20,6 +20,7 @@ class CreateSiswasTable extends Migration
             // $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
             $table->string('password');
             $table->ipAddress('ip')->nullable();
+            $table->longText('wajah')->nullable();
         });
       
     }

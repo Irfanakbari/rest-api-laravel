@@ -112,6 +112,7 @@ class SiswaController extends Controller
                     'id_kelas' => $siswa->id_kelas,
                     'jam_buka' => $settings->jam_buka,
                     'jam_tutup' => $settings->jam_tutup,
+                    'wajah' => $siswa->wajah,
                 ]
             ], 200);
         } else {
