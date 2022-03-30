@@ -66,7 +66,11 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['message' => 'Hi '.$user->nama.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ]);
+            ->json([
+                'message' => 'Hi '.$user->nama.', welcome to home',
+                'nis' => $user->nis,
+                'access_token' => $token, 'token_type' => 'Bearer',
+             ]);
     }
 
     // method for user logout and delete token
