@@ -24,23 +24,23 @@ class AbsenController extends Controller
         //
         $geofence = new Polygon();
 
-$geofence->addPoint(new Coordinate(3.7511587618195557, 98.25261091248325));
-$geofence->addPoint(new Coordinate(3.750357177495111, 98.25258726355919));
-$geofence->addPoint(new Coordinate(3.7502956187966885, 98.25302982802422));
-$geofence->addPoint(new Coordinate(3.751334086693782, 98.25311834091724));
-$geofence->addPoint(new Coordinate(3.7511587618195557, 98.25261091248325));
+        $geofence->addPoint(new Coordinate(3.751990669404107, 98.24938724237715));
+        $geofence->addPoint(new Coordinate(3.7440354460794953, 98.2492909006943));
+        $geofence->addPoint(new Coordinate(3.743626867702194, 98.2556976226045));
+        $geofence->addPoint(new Coordinate(3.753216392241514, 98.25591439139093));
+        $geofence->addPoint(new Coordinate(3.7513657904330255, 98.24659333357422));
 
 
-$insidePoint = new Coordinate(3.750509735989855, 98.25292790408683);
+        $insidePoint = new Coordinate(3.750509735989855, 98.25292790408683);
 
 
 
 
 
-return response()->json([
-    'insidePoint' => $insidePoint,
-    'isInside' => $geofence->contains($insidePoint),
-]);
+        return response()->json([
+            'insidePoint' => $insidePoint,
+            'isInside' => $geofence->contains($insidePoint),
+        ]);
     }
 
     /**
@@ -75,11 +75,11 @@ return response()->json([
         // Geofencing
         $geofence = new Polygon();
 
-        $geofence->addPoint(new Coordinate(3.750333392944162, 98.25154400005326));
-        $geofence->addPoint(new Coordinate(3.747727612736954, 98.25134666307339));
-        $geofence->addPoint(new Coordinate(3.7485817216000052, 98.25441623980792));
-        $geofence->addPoint(new Coordinate(3.7505157351375407, 98.2549376743173));
-        $geofence->addPoint(new Coordinate(3.750333392944162, 98.25154400005326));
+        $geofence->addPoint(new Coordinate(3.751990669404107, 98.24938724237715));
+        $geofence->addPoint(new Coordinate(3.7440354460794953, 98.2492909006943));
+        $geofence->addPoint(new Coordinate(3.743626867702194, 98.2556976226045));
+        $geofence->addPoint(new Coordinate(3.753216392241514, 98.25591439139093));
+        $geofence->addPoint(new Coordinate(3.7513657904330255, 98.24659333357422));
 
         // get data from request
         $me = auth()->user();
@@ -93,32 +93,32 @@ return response()->json([
         $isInside = $geofence->contains($Point);
 
 
-        
 
-        if (!$isInside) {
+
+        if (!$isInside || $isInside == null) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Anda Berada di luar radius absen'
             ], 401);
         }
-        
-        if ($me->nis ==intval($request->nis)) {
-            
-            
+
+        if ($me->nis == intval($request->nis)) {
+
+
             if (Absen::where('nis', $request->nis)->where('tanggal', $tanggal)->exists()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Anda Sudah Absen Hari Ini'
                 ], 400);
             }
-    
+
             $absen = Absen::create([
                 'nis' => $request->nis,
                 'absen' => $request->absen,
                 'tanggal' => $tanggal,
                 'timestamp' => $jam,
             ]);
-    
+
             if ($absen) {
                 return response()->json([
                     'status' => 'success',
@@ -136,9 +136,6 @@ return response()->json([
                 'message' => 'Token Anda Tidak Sesuai dengan NIS'
             ], 400);
         }
-
-        
-
     }
 
     /**
@@ -151,18 +148,18 @@ return response()->json([
     {
         //
         $absensi = Absen::where('nis', $absen->nis)->get(
-           
+
             [
                 'tanggal',
                 'absen',
                 'timestamp'
-            
+
             ]
         );
         return response()->json([
             'status' => 'success',
             'data' => [
-                'nama' => $absen->nama, 
+                'nama' => $absen->nama,
                 'nis' => $absen->nis,
                 'kelas' => $absen->id_kelas,
             ],
