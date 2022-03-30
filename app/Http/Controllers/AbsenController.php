@@ -75,11 +75,11 @@ return response()->json([
         // Geofencing
         $geofence = new Polygon();
 
-        $geofence->addPoint(new Coordinate(3.7511587618195557, 98.25261091248325));
-        $geofence->addPoint(new Coordinate(3.750357177495111, 98.25258726355919));
-        $geofence->addPoint(new Coordinate(3.7502956187966885, 98.25302982802422));
-        $geofence->addPoint(new Coordinate(3.751334086693782, 98.25311834091724));
-        $geofence->addPoint(new Coordinate(3.7511587618195557, 98.25261091248325));
+        $geofence->addPoint(new Coordinate(3.750333392944162, 98.25154400005326));
+        $geofence->addPoint(new Coordinate(3.747727612736954, 98.25134666307339));
+        $geofence->addPoint(new Coordinate(3.7485817216000052, 98.25441623980792));
+        $geofence->addPoint(new Coordinate(3.7505157351375407, 98.2549376743173));
+        $geofence->addPoint(new Coordinate(3.750333392944162, 98.25154400005326));
 
         // get data from request
         $me = auth()->user();
