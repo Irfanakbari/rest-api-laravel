@@ -85,8 +85,8 @@ return response()->json([
         $me = auth()->user();
         $tanggal = date('Y-m-d');
         $jam = date('H:i:s');
-        $lat = $request->lat;
-        $long = $request->long;
+        $lat = floatval($request->lat);
+        $long = floatval($request->long);
 
         // check if inside geofence or not
         $Point = new Coordinate($lat, $long);
