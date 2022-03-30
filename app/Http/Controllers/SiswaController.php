@@ -106,7 +106,7 @@ class SiswaController extends Controller
         $isAbsen = Absen::where('nis', $siswa->nis)->where('tanggal', date('Y-m-d'))->exists();
         $me = auth()->user();
         $settings = Settings::find(1);
-        if (intval($me->nis) == intval($siswa->nis)) {
+        // if (intval($me->nis) == intval($siswa->nis)) {
             return response()->json([
                 'status' => 'success',
                 'data' => [
@@ -120,12 +120,12 @@ class SiswaController extends Controller
                     'ip' => $siswa->ip,
                 ]
             ], 200);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'You are not authorized to access this data'
-            ], 401);
-        }
+        // } else {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'You are not authorized to access this data'
+        //     ], 401);
+        // }
     }
 
     /**
