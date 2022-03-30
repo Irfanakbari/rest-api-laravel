@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\Absen;
 use App\Http\Requests\StoreSiswaRequest;
 use App\Http\Requests\UpdateSiswaRequest;
 use App\Models\Settings;
@@ -96,6 +97,7 @@ class SiswaController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Siswa  $siswa
+     * @param  \App\Models\Absen  $absen
      * @return \Illuminate\Http\Response
      */
     public function show(Siswa $siswa)
@@ -103,6 +105,7 @@ class SiswaController extends Controller
         //
         $me = auth()->user();
         $settings = Settings::find(1);
+        $isAbsen = Absen::where('nis', $siswa->nis)->where('tanggal', date('Y-m-d'))->exists();
         if (intval($me->nis) == intval($siswa->nis)) {
             return response()->json([
                 'status' => 'success',
@@ -112,6 +115,7 @@ class SiswaController extends Controller
                     'id_kelas' => $siswa->id_kelas,
                     'jam_buka' => $settings->jam_buka,
                     'jam_tutup' => $settings->jam_tutup,
+                    'isAbsen' => $isAbsen,
                     'wajah' => $siswa->wajah,
                 ]
             ], 200);
