@@ -201,6 +201,9 @@ return response()->json([
      */
     public function destroy(Absen $absen)
     {
-        //
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Berhasil Hapus Absen'
+        ], 200);
     }
 }

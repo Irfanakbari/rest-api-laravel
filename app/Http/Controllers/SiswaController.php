@@ -145,6 +145,16 @@ class SiswaController extends Controller
     public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'wajah' => 'string',
+        ]);
+        if ($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+        $siswa->wajah = $request->wajah;
+        $siswa->save();
+        return response()->json(['status' => 'success'], 200);
+
     }
 
     /**
